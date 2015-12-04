@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Word:</strong>
+  <%= @keyword.word %>
+</p>
+
+<p>
+  <strong>Page:</strong>
+  <%= @keyword.page %>
+</p>
+
+<%= link_to 'Edit', edit_keyword_path(@keyword) %> |
+<%= link_to 'Back', keywords_path %>
