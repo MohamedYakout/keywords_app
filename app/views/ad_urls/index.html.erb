@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Ad Urls</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Link</th>
+      <th>Position</th>
+      <th>Is ad</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ad_urls.each do |ad_url| %>
+      <tr>
+        <td><%= ad_url.link %></td>
+        <td><%= ad_url.position %></td>
+        <td><%= ad_url.is_ad %></td>
+        <td><%= link_to 'Show', ad_url %></td>
+        <td><%= link_to 'Edit', edit_ad_url_path(ad_url) %></td>
+        <td><%= link_to 'Destroy', ad_url, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ad url', new_ad_url_path %>

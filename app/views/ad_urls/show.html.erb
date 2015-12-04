@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Link:</strong>
+  <%= @ad_url.link %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @ad_url.position %>
+</p>
+
+<p>
+  <strong>Is ad:</strong>
+  <%= @ad_url.is_ad %>
+</p>
+
+<%= link_to 'Edit', edit_ad_url_path(@ad_url) %> |
+<%= link_to 'Back', ad_urls_path %>
