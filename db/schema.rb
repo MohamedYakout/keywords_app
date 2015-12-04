@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204234845) do
+ActiveRecord::Schema.define(version: 20151204235323) do
 
   create_table "ad_urls", force: :cascade do |t|
     t.string   "link",       limit: 255
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20151204234845) do
     t.boolean  "is_ad"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "keyword_id", limit: 4
   end
 
   create_table "keywords", force: :cascade do |t|
