@@ -52,3 +52,6 @@ gem 'roo'
 
 # Request HTTPS
 gem 'httpclient'
+
+# Delayed Job
+gem 'delayed_job_active_record'
