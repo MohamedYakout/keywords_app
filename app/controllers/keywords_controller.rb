@@ -61,6 +61,12 @@ class KeywordsController < ApplicationController
     end
   end
 
+  # Import CSV File
+  def import
+    Keyword.import(params[:file])
+    redirect_to root_url, notice: "Keywords imported."
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_keyword

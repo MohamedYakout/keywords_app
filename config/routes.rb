@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :ad_urls
-  resources :keywords
+  resources :keywords do
+    collection { post :import }
+  end
+
+  root :to => "keywords#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
