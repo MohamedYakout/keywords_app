@@ -49,3 +49,6 @@ end
 
 # Import file
 gem 'roo'
+
+# Request HTTPS
+gem 'httpclient'
