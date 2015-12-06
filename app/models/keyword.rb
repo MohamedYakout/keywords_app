@@ -48,6 +48,16 @@ class Keyword < ActiveRecord::Base
 		self.parsing_html
 	end
 
+	def store_url(node, ele_pos, ad_boolean)
+		link = node.attributes["href"].value
+		if link.match(/http.*/)
+			page_url = link.match(/http.*/)[0]
+			puts page_url
+			ad_url = self.ad_urls.find_or_create_by(link: page_url)
+			ad_url.update(position: ele_pos, is_ad: ad_boolean)
+		end
+	end
+
 	def parsing_html
 		html_doc = Nokogiri::HTML(self.html_page)
 		# Num Results
@@ -62,33 +72,15 @@ class Keyword < ActiveRecord::Base
 		non_ads_nodes = html_doc.css("#ires li h3 a")
 
 		top_ads_nodes.each do |node|
-			link = node.attributes["href"].value
-			if link.match(/http.*/)
-				page_url = link.match(/http.*/)[0]
-				puts page_url
-				ad_url = self.ad_urls.find_or_create_by(link: page_url)
-				ad_url.update(position: "top", is_ad: true)
-			end
+			store_url(node, "top", true)
 		end
 
 		right_ads_nodes.each do |node|
-			link = node.attributes["href"].value
-			if link.match(/http.*/)
-				page_url = link.match(/http.*/)[0]
-				puts page_url
-				ad_url = self.ad_urls.find_or_create_by(link: page_url)
-				ad_url.update(link: page_url, position: "right", is_ad: true)
-			end
+			store_url(node, "right", true)
 		end
 
 		non_ads_nodes.each do |node|
-			link = node.attributes["href"].value
-			if link.match(/http.*/)
-				page_url = link.match(/http.*/)[0]
-				puts page_url
-				ad_url = self.ad_urls.find_or_create_by(link: page_url)
-				ad_url.update(link: page_url, position: "center", is_ad: false)
-			end
+			store_url(node, "center", false)
 		end
 	end
 
