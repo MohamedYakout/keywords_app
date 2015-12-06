@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Word</th>
+      <th>Total Results</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
     <% @keywords.each do |keyword| %>
       <tr>
         <td><%= keyword.word %></td>
+        <td><%= keyword.total_results %></td>
         <td><%= link_to 'Show', keyword %></td>
         <td><%= link_to 'Edit', edit_keyword_path(keyword) %></td>
         <td><%= link_to 'Destroy', keyword, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -25,6 +27,7 @@
 <br>
 
 <%= link_to 'New Keyword', new_keyword_path %>
+<%= link_to 'Report', ad_urls_path %>
 
 <h2>Import Products</h2>
 

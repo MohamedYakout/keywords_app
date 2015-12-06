@@ -28,7 +28,7 @@
   <tbody>
     <% @ad_urls.each do |ad_url| %>
       <tr>
-        <td><%= truncate(ad_url.link, :length => 50) %></td>
+        <td><%= link_to truncate(ad_url.link, :length => 50), ad_url.link %></td>
         <td><%= ad_url.position %></td>
         <td><%= ad_url.is_ad %></td>
         <td><%= link_to 'Show', ad_url %></td>
@@ -43,3 +43,4 @@
 <br>
 
 <%= link_to 'New Ad url', new_ad_url_path %>
+<%= link_to 'Keywords', keywords_path %>
