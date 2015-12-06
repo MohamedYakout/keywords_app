@@ -4,7 +4,9 @@ class AdUrlsController < ApplicationController
   # GET /ad_urls
   # GET /ad_urls.json
   def index
-    @ad_urls = AdUrl.all
+    @q = AdUrl.ransack(params[:q])
+    @ad_urls = @q.result
+    # @ad_urls = AdUrl.all
   end
 
   # GET /ad_urls/1

@@ -2,6 +2,19 @@
 
 <h1>Listing Ad Urls</h1>
 
+<%= search_form_for @q do |f| %>
+
+  # Search if the name field contains...
+  <%= f.label :link_cont %>
+  <%= f.search_field :link_cont %>
+  <%= f.label :is_ad_eq %>
+  <%= f.select :is_ad_eq, [['Yes', 1], ['No', 0]], {include_blank: 'All'}, {class: 'selectpicker chosen-select'} %>
+  <%= f.label :position_eq %>
+  <%= f.select :position_eq, [['Top', 'top'], ['Right', 'right'], ['Center', 'center']], {include_blank: 'All'}, {class: 'selectpicker chosen-select'} %>
+
+  <%= f.submit %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -15,7 +28,7 @@
   <tbody>
     <% @ad_urls.each do |ad_url| %>
       <tr>
-        <td><%= truncate(ad_url.link, :length => 20) %></td>
+        <td><%= truncate(ad_url.link, :length => 50) %></td>
         <td><%= ad_url.position %></td>
         <td><%= ad_url.is_ad %></td>
         <td><%= link_to 'Show', ad_url %></td>
