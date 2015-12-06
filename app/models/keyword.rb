@@ -16,7 +16,7 @@ class Keyword < ActiveRecord::Base
 			row = spreadsheet.row(i)
 			row.each do |word|
 				keyword = Keyword.find_or_create_by(word: word)
-				keyword.delay.search_on_google
+				keyword.delay.search_on_google if self.word
 			end
 		end
 	end
@@ -50,6 +50,7 @@ class Keyword < ActiveRecord::Base
 		html_doc = Nokogiri::HTML(self.html_page)
 		# Num Results
 		num_results_ele = html_doc.css("#resultStats")
+		binding.pry
 		num_results_str = num_results_ele[0].children[0].to_s
 		num_results = num_results_str.gsub(/[^\d]/, '').to_i
 		self.total_results = num_results
@@ -61,26 +62,32 @@ class Keyword < ActiveRecord::Base
 
 		top_ads_nodes.each do |node|
 			link = node.attributes["href"].value
-			page_url = link.match(/http.*/)[0]
-			puts page_url
-			ad_url = self.ad_urls.find_or_create_by(link: page_url)
-			ad_url.update(position: "top", is_ad: true)
+			if link.match(/http.*/)
+				page_url = link.match(/http.*/)[0]
+				puts page_url
+				ad_url = self.ad_urls.find_or_create_by(link: page_url)
+				ad_url.update(position: "top", is_ad: true)
+			end
 		end
 
 		right_ads_nodes.each do |node|
 			link = node.attributes["href"].value
-			page_url = link.match(/http.*/)[0]
-			puts page_url
-			ad_url = self.ad_urls.find_or_create_by(link: page_url)
-			ad_url.update(link: page_url, position: "right", is_ad: true)
+			if link.match(/http.*/)
+				page_url = link.match(/http.*/)[0]
+				puts page_url
+				ad_url = self.ad_urls.find_or_create_by(link: page_url)
+				ad_url.update(link: page_url, position: "right", is_ad: true)
+			end
 		end
 
 		non_ads_nodes.each do |node|
 			link = node.attributes["href"].value
-			page_url = link.match(/http.*/)[0]
-			puts page_url
-			ad_url = self.ad_urls.find_or_create_by(link: page_url)
-			ad_url.update(link: page_url, position: "center", is_ad: false)
+			if link.match(/http.*/)
+				page_url = link.match(/http.*/)[0]
+				puts page_url
+				ad_url = self.ad_urls.find_or_create_by(link: page_url)
+				ad_url.update(link: page_url, position: "center", is_ad: false)
+			end
 		end
 	end
 
