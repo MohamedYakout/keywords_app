@@ -5,7 +5,9 @@ require 'uri'
 
 
 class Keyword < ActiveRecord::Base
-	has_many :ad_urls
+	has_many :ad_urls, dependent: :destroy
+
+	attr_accessor :html_page
 
 	def self.import(file)
 		spreadsheet = open_spreadsheet(file)
@@ -27,7 +29,7 @@ class Keyword < ActiveRecord::Base
 	end
 
 	def search_on_google
-		uri = URI.parse( "http://www.google.de/search" )
+		uri = URI.parse( "http://www.google.co.uk/search" )
 		params = {'q'=> self.word}
 
 		http = Net::HTTP.new(uri.host, uri.port) 
@@ -38,15 +40,21 @@ class Keyword < ActiveRecord::Base
 		request = Net::HTTP::Get.new( uri.path+ '?' + request.body ) 
 
 		response = http.request(request)
-		binding.pry
-		self.page = response.read_body
-		self.page.force_encoding("ISO-8859-1").encode("UTF-8")
-		self.save!
+		self.html_page = response.read_body
+		# self.html_page.force_encoding("ISO-8859-1").encode("UTF-8")
+		# self.save!
 		self.parsing_html
 	end
 
 	def parsing_html
-		html_doc = Nokogiri::HTML(self.page)
+		html_doc = Nokogiri::HTML(self.html_page)
+		# Num Results
+		num_results_ele = html_doc.css("#resultStats")
+		num_results_str = num_results_ele[0].children[0].to_s
+		num_results = num_results_str.gsub(/[^\d]/, '').to_i
+		self.total_results = num_results
+		self.save!
+		# Nodes Results
 		top_ads_nodes = html_doc.css("#center_col li.ads-ad h3 a")
 		right_ads_nodes = html_doc.css("#rhs_block li.ads-ad h3 a")
 		non_ads_nodes = html_doc.css("#ires li h3 a")
@@ -55,21 +63,24 @@ class Keyword < ActiveRecord::Base
 			link = node.attributes["href"].value
 			page_url = link.match(/http.*/)[0]
 			puts page_url
-			self.ad_urls.create(link: page_url, position: "top", is_ad: true)
+			ad_url = self.ad_urls.find_or_create_by(link: page_url)
+			ad_url.update(position: "top", is_ad: true)
 		end
 
 		right_ads_nodes.each do |node|
 			link = node.attributes["href"].value
 			page_url = link.match(/http.*/)[0]
 			puts page_url
-			self.ad_urls.create(link: page_url, position: "right", is_ad: true)
+			ad_url = self.ad_urls.find_or_create_by(link: page_url)
+			ad_url.update(link: page_url, position: "right", is_ad: true)
 		end
 
 		non_ads_nodes.each do |node|
 			link = node.attributes["href"].value
 			page_url = link.match(/http.*/)[0]
 			puts page_url
-			self.ad_urls.create(link: page_url, position: "center", is_ad: false)
+			ad_url = self.ad_urls.find_or_create_by(link: page_url)
+			ad_url.update(link: page_url, position: "center", is_ad: false)
 		end
 	end
 

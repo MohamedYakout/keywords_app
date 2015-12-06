@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205162633) do
+ActiveRecord::Schema.define(version: 20151206003856) do
 
   create_table "ad_urls", force: :cascade do |t|
-    t.string   "link",       limit: 255
+    t.text     "link",       limit: 4294967295
     t.string   "position",   limit: 255
     t.boolean  "is_ad"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "keyword_id", limit: 4
   end
 
@@ -39,10 +39,11 @@ ActiveRecord::Schema.define(version: 20151205162633) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "keywords", force: :cascade do |t|
-    t.string   "word",       limit: 255
-    t.text     "page",       limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "word",          limit: 255
+    t.text     "page",          limit: 65535
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "total_results", limit: 4
   end
 
   add_index "keywords", ["word"], name: "index_keywords_on_word", unique: true, using: :btree
