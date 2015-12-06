@@ -64,3 +64,4 @@ gem 'will_paginate'
 
 # User & outh
 gem 'devise'
+gem 'omniauth-facebook'
