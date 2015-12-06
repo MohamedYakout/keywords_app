@@ -64,7 +64,10 @@ class KeywordsController < ApplicationController
   # Import CSV File
   def import
     Keyword.import(params[:file])
-    redirect_to root_url, notice: "Keywords imported."
+    respond_to do |format|
+      format.html { redirect_to root_url, notice: 'Keywords imported.' }
+      format.json { head :no_content }
+    end
   end
 
   private
