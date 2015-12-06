@@ -7,6 +7,9 @@ require 'uri'
 class Keyword < ActiveRecord::Base
 	has_many :ad_urls, dependent: :destroy
 
+	validates :word, presence: true
+	after_create :delay_search_on_google
+
 	attr_accessor :html_page
 
 	def self.import(file)
@@ -15,9 +18,8 @@ class Keyword < ActiveRecord::Base
 		(1..spreadsheet.last_row).each do |i|
 			row = spreadsheet.row(i)
 			row.each do |word|
-				if keyword.word
+				if word
 					keyword = Keyword.find_or_create_by(word: word)
-					keyword.delay.search_on_google 
 				end
 			end
 		end
@@ -28,6 +30,10 @@ class Keyword < ActiveRecord::Base
 		when ".csv" then Roo::CSV.new(file.path, csv_options: {encoding: "iso-8859-1:utf-8"})
 		else raise "Unknown file type: #{file.original_filename}"
 		end
+	end
+
+	def delay_search_on_google
+		self.delay.search_on_google
 	end
 
 	def search_on_google
