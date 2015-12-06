@@ -7,12 +7,6 @@ class KeywordsController < ApplicationController
     @keywords = Keyword.all
   end
 
-  # GET /keywords/report
-  # GET /keywords/report.json
-  def report
-    @keywords = Keyword.all
-  end
-
   # GET /keywords/1
   # GET /keywords/1.json
   def show
