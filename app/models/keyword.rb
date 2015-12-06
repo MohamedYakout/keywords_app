@@ -15,8 +15,10 @@ class Keyword < ActiveRecord::Base
 		(1..spreadsheet.last_row).each do |i|
 			row = spreadsheet.row(i)
 			row.each do |word|
-				keyword = Keyword.find_or_create_by(word: word)
-				keyword.delay.search_on_google if self.word
+				if keyword.word
+					keyword = Keyword.find_or_create_by(word: word)
+					keyword.delay.search_on_google 
+				end
 			end
 		end
 	end
@@ -50,7 +52,6 @@ class Keyword < ActiveRecord::Base
 		html_doc = Nokogiri::HTML(self.html_page)
 		# Num Results
 		num_results_ele = html_doc.css("#resultStats")
-		binding.pry
 		num_results_str = num_results_ele[0].children[0].to_s
 		num_results = num_results_str.gsub(/[^\d]/, '').to_i
 		self.total_results = num_results
