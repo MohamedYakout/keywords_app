@@ -58,3 +58,6 @@ gem 'delayed_job_active_record'
 
 # Search by ransack
 gem 'ransack'
+
+# Add pagination
+gem 'will_paginate'
