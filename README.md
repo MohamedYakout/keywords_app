@@ -35,3 +35,7 @@ And this to run delayed jobs:
 ```
 rake jobs:work
 ```
+
+## Important note to use Facebook Outh2: 
+You should run the application on browser using the following URL: 
+`http://lvh.me:3000/`
