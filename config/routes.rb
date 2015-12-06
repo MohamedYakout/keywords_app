@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :ad_urls
   resources :keywords do
     collection { post :import }

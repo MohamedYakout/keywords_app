@@ -61,3 +61,6 @@ gem 'ransack'
 
 # Add pagination
 gem 'will_paginate'
+
+# User & outh
+gem 'devise'

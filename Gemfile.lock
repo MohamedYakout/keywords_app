@@ -37,6 +37,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
@@ -56,6 +57,13 @@ GEM
     delayed_job_active_record (4.1.0)
       activerecord (>= 3.0, < 5)
       delayed_job (>= 3.0, < 5)
+    devise (3.5.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -82,6 +90,7 @@ GEM
     mysql2 (0.3.18)
     nokogiri (1.6.7)
       mini_portile2 (~> 2.0.0.rc2)
+    orm_adapter (0.5.0)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     pry (0.10.3)
@@ -125,6 +134,8 @@ GEM
       i18n
       polyamorous (~> 1.2)
     rdoc (4.2.0)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     roo (2.2.0)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -158,6 +169,8 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -175,6 +188,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   delayed_job_active_record
+  devise
   httpclient
   jbuilder (~> 2.0)
   jquery-rails
